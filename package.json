@@ -1,0 +1,27 @@
+{
+    "name": "mocktailql",
+    "version": "0.0.1",
+    "description": "Mix and Match Mock and Live GraphQL Servers with Ease.",
+    "main": "proxy-server.js",
+    "scripts": {
+        "start": "node proxy-server.js",
+        "test": "echo \"No tests specified\" && exit 0"
+    },
+    "keywords": [
+        "graphql",
+        "apollo-server",
+        "mock",
+        "proxy"
+    ],
+    "author": "Scott Hodson <scott@keepitswift.com>",
+    "license": "ISC",
+    "dependencies": {
+        "@graphql-tools/schema": "^10.0.16",
+        "@graphql-tools/stitch": "^9.4.14",
+        "apollo-server": "^3.13.0",
+        "cross-fetch": "^4.1.0",
+        "dotenv": "^16.4.7",
+        "graphql": "^16.10.0",
+        "graphql-request": "^7.1.2"
+    }
+}
