@@ -42,5 +42,8 @@ Thumbs.db
 # IDE settings (JetBrains, IntelliJ, etc.)
 .idea/
 
+# Output
+mocked-schema.graphql
+
 # Optional: Uncomment to ignore the test coverage directory if using a testing tool
 # coverage/

@@ -3,8 +3,10 @@ require('dotenv').config();
 const { ApolloServer } = require('apollo-server');
 const { stitchSchemas } = require('@graphql-tools/stitch');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
-const { print } = require('graphql');
+const { printSchema } = require('graphql');
 const fetch = require('cross-fetch');
+const path = require('path');
+const fs = require('fs');
 
 const mockTypeDefs = require('./mockTypeDefs');
 const mockResolvers = require('./mockResolvers');
@@ -54,6 +56,11 @@ async function startServer() {
                 },
             ],
         });
+
+        const schemaSDL = printSchema(stitchedSchema);
+        const schemaPath = path.join(__dirname, 'mocked-schema.graphql');
+        fs.writeFileSync(schemaPath, schemaSDL, 'utf-8');
+        console.log('Merged schema saved to mocked-schema.graphql');
 
         const server = new ApolloServer({
             schema: stitchedSchema,
