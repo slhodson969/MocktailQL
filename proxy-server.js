@@ -3,7 +3,7 @@ require('dotenv').config();
 const { ApolloServer } = require('apollo-server');
 const { stitchSchemas } = require('@graphql-tools/stitch');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
-const { printSchema } = require('graphql');
+const { print, printSchema } = require('graphql');
 const fetch = require('cross-fetch');
 const path = require('path');
 const fs = require('fs');
