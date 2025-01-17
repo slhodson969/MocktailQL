@@ -4,7 +4,7 @@ const { ApolloServer } = require('apollo-server');
 const { stitchSchemas } = require('@graphql-tools/stitch');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 const { print } = require('graphql');
-const { fetch } = require('cross-fetch');
+const fetch = require('cross-fetch');
 
 const mockTypeDefs = require('./mockTypeDefs');
 const mockResolvers = require('./mockResolvers');
@@ -25,12 +25,17 @@ async function startServer() {
             subschemas: [
                 {
                     schema: remoteSchema,
-                    executor: async ({ document, variables }) => {
+                    executor: async ({ document, variables, context }) => {
                         const query = print(document);
+
+                        const authHeader = context.req.headers['authorization'];
 
                         const response = await fetch(LIVE_SERVER_URL, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: authHeader,
+                            },
                             body: JSON.stringify({ query, variables }),
                         });
 
@@ -50,7 +55,12 @@ async function startServer() {
             ],
         });
 
-        const server = new ApolloServer({ schema: stitchedSchema });
+        const server = new ApolloServer({
+            schema: stitchedSchema,
+            context: ({ req }) => {
+                return { req };
+            },
+        });
 
         server.listen({ port: 4000 }).then(({ url }) => {
             console.log(`🚀 Proxy server running at ${url}`);
